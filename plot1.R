@@ -44,6 +44,5 @@ hist(subsetDf$Global_active_power, main = "Global Active Power", col="red", xlab
 dev.copy(png, file="plot1.png", width=480, height=480)
 #Close the PNG device
 dev.off()
-#cat("Plot1.png has been saved in", getwd())
 
 
