@@ -22,3 +22,28 @@ rm(list=ls())
 
 #Optional: set working directory to  where the  Dataset was unzipped
 #setwd("C:\\JP Docs\\Data Science Certification\\WD");
+
+## load the data
+# Read in the Individual household electric power consumption data
+# Missing values are coded as ?
+df <- read.table("household_power_consumption.txt", header = T, sep = ";", na.strings = "?", dec=".")
+
+# Convert Date variable to Date class
+df$Date <- as.Date(df$Date, format = "%d/%m/%Y")
+
+# Subset the data frame to return records from the dates 2007-02-01 and 2007-02-02
+subsetDf <- subset(df, subset = (Date >= "2007-02-01" & Date <= "2007-02-02"))
+
+# Coerce Global_active_power variable type to Double
+subsetDf$Global_active_power <- as.numeric(subsetDf$Global_active_power)
+
+# Convert from character to dates-time type
+subsetDf <- transform(subsetDf, datetime=as.POSIXct(paste(Date, Time)), "%d/%m/%Y %H:%M:%S")
+
+#Create a plot of household global minute-averaged active power (in kilowatt)
+plot(subsetDf$datetime,subsetDf$Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)")
+
+#Copy the histogram  plot to a PNG file
+dev.copy(png, file="plot2.png", width=480, height=480)
+#Close the PNG device
+dev.off()
